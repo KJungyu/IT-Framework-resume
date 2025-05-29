@@ -179,3 +179,56 @@ ul {
     left: 0;
     color: #2ecc71;
 }
+
+.template-page {
+    text-align: center;
+    padding: 2rem;
+}
+
+.template-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.template-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.template-card {
+    width: 280px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.template-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.template-name {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.template-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.template-description {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+
