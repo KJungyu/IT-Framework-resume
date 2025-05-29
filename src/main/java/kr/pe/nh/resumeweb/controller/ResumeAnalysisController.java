@@ -8,12 +8,18 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.pe.nh.resumeweb.model.Resume;
+import kr.pe.nh.resumeweb.repository.ResumeRepository;
 
 import java.util.*;
 
@@ -118,6 +124,53 @@ public class ResumeAnalysisController {
             return Map.of("content", content);
         }
     }
+
+    @Autowired
+    private ResumeRepository resumeRepository;
+
+    @PostMapping("/analyze-and-save")
+    public ResponseEntity<?> analyzeAndSave(@RequestBody ResumeRequest request) {
+        try {
+            // GPT 분석
+            Map<String, Object> analysisResult = requestToGPT(request, true);
+
+            String refinePrompt = "다음 자기소개서를 보완해줘:\n" + request.getContent();
+            ResumeRequest refineRequest = new ResumeRequest();
+            refineRequest.setContent(refinePrompt);
+
+            Map<String, Object> refinedResult = requestToGPT(refineRequest, false);
+
+            // DB 저장
+            Resume resume = Resume.builder()
+                    .title("GPT 분석 이력서")
+                    .rawText(request.getContent())
+                    .refinedText((String) refinedResult.get("content"))
+                    .sentenceScore((String) analysisResult.get("문장력"))
+                    .detailScore((String) analysisResult.get("구체성"))
+                    .motiveScore((String) analysisResult.get("지원동기"))
+                    .growthScore((String) analysisResult.get("성장과정"))
+                    .createdAt(new Date().toString())
+                    .build();
+
+            resumeRepository.save(resume);
+            return ResponseEntity.ok(resume);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("실패: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getAllResumes() {
+        try {
+            List<Resume> resumes = resumeRepository.findAll();
+            return ResponseEntity.ok(resumes);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("조회 실패: " + e.getMessage());
+        }
+    }
+
+
 
     private String extractText(MultipartFile file) throws Exception {
         if (file.getOriginalFilename().endsWith(".pdf")) {
