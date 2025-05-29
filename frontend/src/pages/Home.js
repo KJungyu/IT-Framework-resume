@@ -9,7 +9,7 @@ function Home() {
             <nav className="navbar">
                 <div className="container">
                     <div className="navbar-left">
-                        <Link to="/" className="brand">PassProfile</Link>
+                        <Link to="/" className="brand">Fit4Job</Link>
                         <ul className="nav-links">
                             <li><Link to="/">홈</Link></li>
                             <li><Link to="/resumes">이력서 작성</Link></li>
@@ -25,9 +25,9 @@ function Home() {
 
             <header className="hero-section">
                 <div className="hero-text">
-                    <span className="badge">Passprofile에 오신 것을 환영합니다.</span>
-                    <h1>Passprofile</h1>
-                    <p>손쉽게 프로필을 작성하고 다양하게 활용해보세요</p>
+                    <span className="badge">Fit4Job에 오신 것을 환영합니다.</span>
+                    <h1>회사 이력서 생성</h1>
+                    <p>손쉽게 이력서를 작성하고 다양하게 활용해보세요</p>
                     <Link to="/editor" className="btn primary">지금 바로 시작하기</Link>
                 </div>
                 <div className="hero-image">
@@ -37,8 +37,8 @@ function Home() {
 
             <section className="features">
                 <div className="feature">
-                    <h3>손쉬운 프로필 작성</h3>
-                    <p>여러 템플릿 예시가 있어 이름을 조합하여 쉽게 작성할 수 있습니다.</p>
+                    <h3>손쉬운 이력서 작성</h3>
+                    <p>여러 템플릿 예시가 있어 회사명을 조합하여 쉽게 작성할 수 있습니다.</p>
                     <ul>
                         <li>이력서에 자주 사용되는 구성요소</li>
                         <li>실시간으로 이력서를 보면서 수정</li>
